@@ -1,0 +1,28 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+header{
+    height: 10vh;
+    width: 100vw;
+}
+
+body{
+    background-color:bisque;
+}
+
+main{
+    height: 90vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.game{
+    height: 80%;
+    width: 70%;
+    border-radius: 30px;
+    background-color:darkgrey;
+    box-shadow: 0 0 20px rgb(31, 30, 30);
+}
