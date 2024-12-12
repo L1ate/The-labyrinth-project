@@ -43,7 +43,6 @@ class Player extends GameSprite {
       }
     });
     document.addEventListener("keyup", (e) => {
-      console.log(e.key);
       switch (e.key) {
         case "d":
           this.moveRight = false
@@ -66,7 +65,8 @@ class Player extends GameSprite {
   movePlayer() {
     if (this.moveRight && this.x < canvas.width - this.width) {
       this.x += 1;
-      if(isCollide(this, player2)){   
+      if(isCollide(this, player2)){
+         
         this.x -= 1;
       }
     }
@@ -93,7 +93,7 @@ class Player extends GameSprite {
 
 const isCollide = (obj1, obj2) => {
   const dx = (obj1.width + obj2.width) / 2;
-  const dy = (obj1.higth + obj2.higth) / 2;
+  const dy = (obj1.height + obj2.height) / 2;
   if (Math.abs(obj1.x - obj2.x) < dx && Math.abs(obj1.y - obj2.y) < dy) {
     return true;
   }
@@ -112,12 +112,6 @@ player.image.onload = () => {
     player2.drawSprite();
     //wall.drawSprite();
     player.movePlayer();
-
-    if (isCollide(player, player2)) {
-      player.x = 50;
-      player.y = 50;
-      console.log('Коснулось');
-    }
 
     window.requestAnimationFrame(render);
   };
