@@ -65,26 +65,26 @@ class Player extends GameSprite {
   movePlayer() {
     if (this.moveRight && this.x < canvas.width - this.width) {
       this.x += 1;
-      if(isCollide(this, player2)){
+      if(isCollideObjects(walls)){
          
         this.x -= 1;
       }
     }
     if (this.moveLeft && this.x >= 0) {
       this.x -= 1;
-      if(isCollide(this, player2)){   
+      if(isCollideObjects(walls)){   
         this.x += 1;
       }
     }
     if (this.moveUp && this.y > 0) {
       this.y -= 1;
-      if(isCollide(this, player2)){   
+      if(isCollideObjects(walls)){   
         this.y += 1;
       }
     }
     if (this.moveDown && this.y < canvas.height - this.height) {
       this.y += 1;
-      if(isCollide(this, player2)){   
+      if(isCollideObjects(walls)){   
         this.y -= 1;
       }
     }
@@ -100,17 +100,40 @@ const isCollide = (obj1, obj2) => {
   return false;
 }
 
+const isCollideObjects = (list) => {
+  for(let i of list){
+    if(isCollide(player, i)){
+      return true;
+    }
+  }
+  return false;
+}
+const walls = [];
+const player = new Player(20, 0, 'Player.png', 15, 30);
+const wall1 = new GameSprite(0, 0, 'the_wall.png', 10, 50);
+const wall2 = new GameSprite(50, 0, 'the_wall.png', 15, 20);
+const wall3 = new GameSprite(0, 50, 'the_wall.png', 120, 5);
+const wall4 = new GameSprite(115, 55, 'the_wall.png', 5, 35);
+const wall5 = new GameSprite(65, 15, 'the_wall.png', 90, 5);
+const wall6 = new GameSprite(150, 20, 'the_wall.png', 5, 40);
+const wall7 = new GameSprite(150, 55, 'the_wall.png', 40, 5);
 
-const player = new Player(40, 40, 'CM.png', 30, 30);
-const player2 = new GameSprite(0, 0, 'dog.jpg', 30, 30);
-//const wall = new GameSprite(60, 40, 'wall.png', 30, 30);
+
+walls.push(wall1)
+walls.push(wall2)
+walls.push(wall3)
+walls.push(wall4)
+walls.push(wall5)
+walls.push(wall6)
+walls.push(wall7)
 player.startKeysEvents();
 player.image.onload = () => {
   const render = () => {
     ctx.clearRect(0, 0, 1000, 300);
     player.drawSprite();
-    player2.drawSprite();
-    //wall.drawSprite();
+    for(const i of walls){
+      i.drawSprite();
+    }
     player.movePlayer();
 
     window.requestAnimationFrame(render);
