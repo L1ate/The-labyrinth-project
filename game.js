@@ -68,35 +68,37 @@ class Player extends GameSprite {
       }
     });
   }
-
   movePlayer() {
     if (this.moveRight && this.x < canvas.width - this.width) {
-      this.x += 10;
+      this.x += 5;
       if (isCollideObjects(walls)) {
-        this.x -= 10;
+        this.x -= 5;
       }
     }
-    if (this.moveLeft) {
-      this.x -= 10;
+    if (this.moveLeft && this.x >= 0) {
+      this.x -= 5;
       if (isCollideObjects(walls)) {
-        this.x += 10;
+        this.x += 5;
       }
     }
     if (this.moveUp && this.y > 0) {
-      this.y -= 10;
+      this.y -= 5;
       if (isCollideObjects(walls)) {
-        this.y += 10;
+        this.y += 5;
       }
     }
     if (this.moveDown && this.y < canvas.height - this.height) {
-      this.y += 10;
+      this.y += 5;
       if (isCollideObjects(walls)) {
-        this.y -= 10;
+        this.y -= 5;
       }
     }
   }
 }
 
+class Enemy extends GameSprite{
+
+}
 const isCollide = (obj1, obj2) => {
   const dx = (obj1.width + obj2.width) / 2;
   const dy = (obj1.height + obj2.height) / 2;
@@ -122,14 +124,24 @@ const isCollideObjects = (list) => {
   return false;
 };
 const walls = [];
+const pounts = [[710, 100], [710, 650]];
 const player = new Player(0, 0, "Player.png", 100, 100);
+const point1 = new GameSprite(710, 100,'', 5, 5);                //
+const point2 = new GameSprite(710, 580,'', 5, 5);                 //
+const point3 = new GameSprite(515, 580,'', 5, 5);                 //
+const point4 = new GameSprite(515, 100,'', 5, 5);                 //
+const point5 = new GameSprite(310, 100,'', 5, 5);
+const point6 = new GameSprite(310, 580,'', 5, 5);
+const point7 = new GameSprite(900, 100,'', 5, 5);
+const point8 = new GameSprite(900, 580,'', 5, 5);
+const point9 = new GameSprite(1100, 580,'', 5, 5);
 const wall1 = new GameSprite(200, 30, '', 20, 500);
 const wall2 = new GameSprite(200, 30, '', 800, 20);
 const wall3 = new GameSprite(200, 650, '', 800, 20);
 const wall4 = new GameSprite(400, 150, '', 20, 500);
 const wall5 = new GameSprite(600, 30, '', 20, 500);
 const wall6 = new GameSprite(800, 150, '', 20, 500);
-// const wall7 = new GameSprite(150, 55, 'the_wall.png', 40, 5);
+
 
 walls.push(wall1)
 walls.push(wall2)
@@ -137,7 +149,6 @@ walls.push(wall3)
 walls.push(wall4)
 walls.push(wall5)
 walls.push(wall6)
-// walls.push(wall7)
 
 player.startKeysEvents();
 
@@ -148,7 +159,15 @@ const render = () => {
     i.drawSprite();
   }
   player.movePlayer();
-
+  point1.drawSprite();
+  point2.drawSprite();
+  point3.drawSprite();
+  point4.drawSprite();
+  point5.drawSprite();
+  point6.drawSprite();
+  point7.drawSprite();
+  point8.drawSprite();
+  point9.drawSprite();
   window.requestAnimationFrame(render);
 };
 window.requestAnimationFrame(render);
