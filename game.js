@@ -105,16 +105,15 @@ class Enemy extends GameSprite {
   chooseDirection(currentMoveIndex) {
     const diff = getRandomInt(-1, 2);
     const newIndex = Math.abs(
-      currentMoveIndex + diff > pounts.length
+      currentMoveIndex + diff > pounts.length - 1
         ? currentMoveIndex - 1
         : currentMoveIndex + diff
     );
     console.log(diff, currentMoveIndex);
     this.nextPoint = pounts[newIndex];
     this.currentPoint = pounts[currentMoveIndex];
-    this.x = this.nextPoint[0];
-    this.y = this.nextPoint[1];
-
+    this.x = this.currentPoint[0];
+    this.y = this.currentPoint[1];
   }
   move() {
     const [x1, y1] = this.currentPoint;
@@ -134,7 +133,7 @@ class Enemy extends GameSprite {
     this.x = x1;
     this.y = y1;
     if (this.currentPoint.toString() === this.nextPoint.toString()) {
-      this.chooseDirection(pounts.indexOf(this.currentPoint));
+      this.chooseDirection(pounts.indexOf(this.nextPoint));
     }
   }
 }
@@ -166,34 +165,36 @@ const isCollideObjects = (list) => {
 };
 const walls = [];
 const pounts = [
-  [710, 100],
-  [710, 650],
-  [515, 580],
-  [515, 100],
+  [310, 580],
   [310, 100],
+  [515, 100],
+  [515, 580],
+  [710, 580],
+  [710, 100],
   [900, 100],
   [900, 580],
-  [1100, 580],
+  [1100, 580]
 ];
 const player = new Player(0, 0, "Player.png", 100, 100);
-const point1 = new GameSprite(710, 100, "", 5, 5); //
-const point2 = new GameSprite(710, 580, "", 5, 5); //
-const point3 = new GameSprite(515, 580, "", 5, 5); //
-const point4 = new GameSprite(515, 100, "", 5, 5); //
-const point5 = new GameSprite(310, 100, "", 5, 5);
-const point6 = new GameSprite(310, 580, "", 5, 5);
-const point7 = new GameSprite(900, 100, "", 5, 5);
-const point8 = new GameSprite(900, 580, "", 5, 5);
-const point9 = new GameSprite(1100, 580, "", 5, 5);
-const wall1 = new GameSprite(200, 30, "", 20, 500);
-const wall2 = new GameSprite(200, 30, "", 800, 20);
-const wall3 = new GameSprite(200, 650, "", 800, 20);
-const wall4 = new GameSprite(400, 150, "", 20, 500);
-const wall5 = new GameSprite(600, 30, "", 20, 500);
-const wall6 = new GameSprite(800, 150, "", 20, 500);
+const point1 = new GameSprite(310, 580, "", 5, 5); // первая
+const point2 = new GameSprite(310, 100, "", 5, 5); // вторая
+const point3 = new GameSprite(515, 100, "", 5, 5); // третья
+const point4 = new GameSprite(515, 580, "", 5, 5); // четвёртая
+const point5 = new GameSprite(710, 580, "", 5, 5); // пятая точка
+const point6 = new GameSprite(710, 100, "", 5, 5)  // шестая точка
+const point7 = new GameSprite(900, 100, "", 5, 5); // седьмая
+const point8 = new GameSprite(900, 580, "", 5, 5); // восьмая
+const point9 = new GameSprite(1100, 580, "", 5, 5); // девятая
+const wall1 = new GameSprite(200, 30, "", 20, 480);
+const wall2 = new GameSprite(200, 0, "", 800, 80);
+const wall3 = new GameSprite(200, 650, "", 800, 80);
+const wall4 = new GameSprite(400, 200, "", 20, 450);
+const wall5 = new GameSprite(600, 30, "", 20, 500); //1100 100
+const wall6 = new GameSprite(800, 200, "", 20, 500);
+const finish = new GameSprite(1100, 100, "", 5, 5);
 
-const enemy = new Enemy(710, 580, 'Pudge_2d.png', 50, 50);
-enemy.chooseDirection(2)
+const enemy = new Enemy(710, 580, 'Pudge_2d.png', 80, 80);
+enemy.chooseDirection(8)
 
 walls.push(wall1);
 walls.push(wall2);
@@ -204,6 +205,8 @@ walls.push(wall6);
 
 player.startKeysEvents();
 
+
+
 const render = () => {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   player.drawSprite();
@@ -213,15 +216,15 @@ const render = () => {
   player.movePlayer();
   enemy.move();
   enemy.drawSprite();
-  point1.drawSprite();
-  point2.drawSprite();
-  point3.drawSprite();
-  point4.drawSprite();
-  point5.drawSprite();
-  point6.drawSprite();
-  point7.drawSprite();
-  point8.drawSprite();
-  point9.drawSprite();
   window.requestAnimationFrame(render);
+  if(isCollide(player, enemy)){
+  player.x = 0;
+  player.y = 0;
+}
+if(isCollide(player, finish)){
+  alert("Ты победил, булочка. Ты получать в награду мешок риса и кошка-жена");
+  player.x = 0;
+  player.y = 0;
+}
 };
 window.requestAnimationFrame(render);
